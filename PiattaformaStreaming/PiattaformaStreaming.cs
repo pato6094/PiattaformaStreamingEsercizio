@@ -84,15 +84,17 @@ namespace PiattaformaStreaming
             elapsedSeconds = 0;
         }
 
-        public void Play()
+        public bool Play()
         {
             if (streaming_song != null)
             {
                 streaming_song.Status = SongStatus.Play;
-
+                Console.WriteLine(streaming_song.Name);
                 streaming_timer.Start();
                 startTimer();
+                return true;
             }
+            return false;
         }
 
         public void Stop()
@@ -177,72 +179,11 @@ namespace PiattaformaStreaming
 
             }
         }
-    }
 
-    public class Application : StreamingPlatform
-    {
-        private List<User> application_users;
-        private User application_log_user;
-        //private Dictionary<User, Dictionary<Song, int>> users_rate_songs;
-        public Application(string _application_name) : base(_application_name)
+        void Player.Play()
         {
-            application_name = _application_name;
-
-            application_users = new List<User>();
-            
+            throw new NotImplementedException();
         }
-
-        protected sealed override bool AccessVerified(User user_login)
-        {
-            if (application_users.IndexOf(user_login) == -1)
-                return false;
-
-            return true;
-        }
-
-        public bool LogInApplication()
-        {
-            Console.WriteLine("Username: ");
-            string username = Console.ReadLine();
-            Console.WriteLine("Password: ");
-            string password = Console.ReadLine();
-
-            User user_login = new User(username, password);
-
-            if (AccessVerified(user_login))
-            {
-                application_log_user = user_login;
-                return true;
-            }
-            else
-            {
-                Console.ReadKey();
-                Console.Clear();
-                return false;
-            }
-        }
-
-
-
-
-      
-        public class User
-        {
-            private string user_username;
-            private string user_password;
-
-
-
-            public string Username { get { return user_username; } set { user_username = value; } }
-            public string Password { get { return user_password; } set { user_password = value; } }
-
-            public User(string user_username, string user_password)
-            {
-                this.user_username = user_username;
-                this.user_password = user_password;
-            }
-        }
-
     }
 
 
